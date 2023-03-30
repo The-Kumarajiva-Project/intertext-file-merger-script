@@ -33,8 +33,9 @@ jobs:
         from intertext_files_merger.alignment_merger import merge_alignment_file,get_alignment_text
         from intertext_files_merger.text_saver import save_text
         from intertext_files_merger.main import merge_texts,merge_alignment_file
-        input_dir = Path('./input')
-        output_directory = Path("./output")
+        input_dir = Path('./files_to_merge')
+        output_directory = Path("./merged_files")
+        output_directory.mkdir(parents=True, exist_ok=True)
         regrouped_filenames = regroup_filename(input_dir)
         merged_texts=merge_texts(regrouped_filenames)
         for text_id,language_files in merged_texts.items():
