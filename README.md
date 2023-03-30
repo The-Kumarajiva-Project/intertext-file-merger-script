@@ -1,7 +1,7 @@
 # intertext-file-repo
 
-U need to drop intertext files that u want to merge in input dir. 
+Place the intertext files you want to merge in the "files_to_merge" folder within the repository.
 
-after pushing the files to github
+Push the files to GitHub.
 
-merge files will be in output directory.
+Once the files are pushed, the merged file(s) will be located in the "merge_files" folder within the repository.
