@@ -1,0 +1,50 @@
+name: merger
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  merger_intertext_files:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.8"
+        
+    - name: Install dependencies
+      run: |
+        pip install -U pip
+        pip install python-dateutil
+        pip install git+https://github.com/OpenPecha/intertext-files-merger.git
+    - name: Merge intertext file
+      run: |
+        from pathlib import Path
+        from intertext_files_merger.filename_regrouper import regroup_filename
+        from intertext_files_merger.text_merger import merge_texts,is_alignment_file,merge_xml
+        from intertext_files_merger.alignment_merger import merge_alignment_file,get_alignment_text
+        from intertext_files_merger.text_saver import save_text
+        from intertext_files_merger.main import merge_texts,merge_alignment_file
+        input_dir = Path('./input')
+        output_directory = Path("./output")
+        regrouped_filenames = regroup_filename(input_dir)
+        merged_texts=merge_texts(regrouped_filenames)
+        for text_id,language_files in merged_texts.items():
+            for lang,lang_text in language_files.items():
+               file_name= text_id+"."+lang+".xml"           
+               file_path = output_directory/file_name
+               file_path.write_text(lang_text,encoding="utf-8")
+      shell: python
+
+    - name: Git Auto Commit
+      uses: stefanzweifel/git-auto-commit-action@v4.16.0
+      with:
+        commit_message: Added or updated review dir
