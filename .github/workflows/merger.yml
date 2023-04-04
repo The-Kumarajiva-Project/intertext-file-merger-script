@@ -24,7 +24,7 @@ jobs:
       run: |
         pip install -U pip
         pip install python-dateutil
-        pip install git+https://github.com/OpenPecha/intertext-files-merger.git
+        pip install git+https://github.com/OpenPecha/intertext-files-merger.git@folder-base
     - name: Merge intertext file
       run: |
         from pathlib import Path
@@ -34,11 +34,9 @@ jobs:
         from intertext_files_merger.text_saver import save_text
         from intertext_files_merger.main import merge_texts,merge_alignment_file
         input_dir = Path('./files_to_merge')
-        input_file_paths = list(input_dir.iterdir())
-        input_file_paths.sort()
         output_directory = Path("./merged_files")
         output_directory.mkdir(parents=True, exist_ok=True)
-        regrouped_filenames = regroup_filename(input_file_paths)
+        regrouped_filenames = regroup_filename(input_dir)
         merged_texts=merge_texts(regrouped_filenames)
         for text_id,language_files in merged_texts.items():
             for lang,lang_text in language_files.items():
