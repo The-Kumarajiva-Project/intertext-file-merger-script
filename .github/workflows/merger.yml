@@ -34,7 +34,7 @@ jobs:
         from intertext_files_merger.text_saver import save_text
         from intertext_files_merger.main import merge_texts,merge_alignment_file
         input_dir = Path('./files_to_merge')
-        input_file_paths = input_dir.iterdir()
+        input_file_paths = list(input_dir.iterdir())
         input_file_paths.sort()
         output_directory = Path("./merged_files")
         output_directory.mkdir(parents=True, exist_ok=True)
